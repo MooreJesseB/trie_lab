@@ -4,6 +4,24 @@ Trie = function(){
 };
 
 Trie.prototype.learn = function(word, index){
+  if (index === undefined){
+    index = 0;
+  } 
+  if (index < word.length) {
+    var letter = word[index];
+    if (this.characters[letter] === undefined) {
+      // create new Trie
+      this.characters[letter] = new Trie();
+    } 
+      // move on through new or existing Trie
+      index++;
+      this.characters[letter].learn(word, index);
+  } else {
+
+    // end of word
+    // this.isWord = true;
+    this.isWord = true;
+  }
   // This function should add the given word,
   // starting from the given index,
   // to this Trie.

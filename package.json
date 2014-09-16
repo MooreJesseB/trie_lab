@@ -6,7 +6,7 @@
     "jasmine-node": "*"
   },
   "scripts": {
-    "test": "jasmine-node spec/trie_spec.js"
+    "test": "jasmine-node spec/trie_spec.js --color --verbose"
   },
   "repository": {
     "type": "git",

@@ -37,7 +37,31 @@ Trie.prototype.learn = function(word, index){
   // so that the words can be reconstructed later.
 };
 
-Trie.prototype.getWords = function(words, currentWord){
+Trie.prototype.getWords = function(words, currentWord) {
+  
+  // if (words === undefined) {
+  //   words = [];
+  // }
+
+  // if (currentWord === undefined) {
+  //   currentWord = "";
+  // }
+
+  currentWord = currentWord || "";
+  words = words || [];
+
+  if (this.isWord) {
+    words.push(currentWord);
+  }
+
+  for (var key in this.characters) {
+    var nextWord = currentWord + key;
+    this.characters[key].getWords(words, nextWord);
+  }
+
+  return words;
+
+
   // This function will return all the words which are
   // contained in this Trie.
   // it will use currentWord as a prefix,
@@ -45,6 +69,30 @@ Trie.prototype.getWords = function(words, currentWord){
 };
 
 Trie.prototype.find = function(word, index){
+  if (word.length === 0 || word === undefined || index < 0) {
+    return false;
+  }
+
+  if (index === undefined) {
+    index = 0;
+  }
+
+  var letter = word[index];
+
+  if (this.characters[letter] === undefined) {
+    return false;
+  } else {
+
+    if (index < word.length - 1) {
+      index++;
+      return this.characters[letter].find(word, index);
+    } else if (index === word.length - 1) {
+      return this.characters[letter];
+    } else {
+      return false;      
+    }   
+  }
+
   // This function will return the node in the trie
   // which corresponds to the end of the passed in word.
 
@@ -52,13 +100,22 @@ Trie.prototype.find = function(word, index){
 };
 
 Trie.prototype.autoComplete = function(prefix){
+  word = this.find(prefix);
+
+  if (word) {
+    return word.getWords([], prefix);
+  } else {
+    return [];
+  }
+  
+  // words.forEach(function(word))
   // This function will return all completions 
   // for a given prefix.
   // It should use find and getWords.
 };
 
 try{
-  module.exports = Trie
+  module.exports = Trie;
 } catch(e){
 
 }
